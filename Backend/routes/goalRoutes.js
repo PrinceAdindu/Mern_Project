@@ -2,8 +2,10 @@ const express = require('express');
 const router = express.Router();
 const { getGoals, setGoal, updateGoal, deleteGoal } = require('../controllers/goalController')
 
-router.route('/').get(getGoals).post(setGoal)
-router.route('/:id').delete(deleteGoal).put(updateGoal)
+const{protect} = require('../middleware/authMiddleware')
+
+router.route('/').get(protect, getGoals).post(protect, setGoal) //The protect parameter added was to protect access to viewing the list of goals. Same goes for set, delete and update goal access
+router.route('/:id').delete(protect, deleteGoal).put(protect, updateGoal)
 
 
 // router.get('/', getGoals)
